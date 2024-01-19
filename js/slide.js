@@ -30,6 +30,7 @@ bindEventos() {
   this.comeco = this.comeco.bind(this)
   this.movendo = this.movendo.bind(this)
   this.terminandoMover = this.terminandoMover.bind(this)
+  
 }
 
 
