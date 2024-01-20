@@ -9,6 +9,10 @@ constructor(slide, wrapper){
   }
 }
 
+transition(ativo){
+  this.slide.style.transition = ativo ? 'transform .5s' : ''
+}
+
   movendoSlide(distanciaX){
     this.distancia.movimentoPosicao = distanciaX
     this.slide.style.transform = `translate3D(${distanciaX}px, 0px, 0px)`
@@ -30,6 +34,7 @@ comeco(e){
     tipoMovimento = 'touchmove'
   }
   this.wrapper.addEventListener(tipoMovimento, this.movendo)
+  this.transition(false)
 }
 
 movendo(e){
@@ -42,7 +47,19 @@ terminandoMover(e){
   const tipoMovimento = (e.type === 'mouseup') ? 'mousemove' : 'touchmove'
   this.wrapper.removeEventListener(tipoMovimento, this.movendo)
   this.distancia.posicaoFinal = this.distancia.movimentoPosicao
- 
+  this.transition(true)
+  this.changeSlideNoFinal()
+}
+
+changeSlideNoFinal(){
+  if(this.distancia.movimento > 120 && this.index.next !== null){
+    this.ativoSlideProximo()
+  }else if(this.distancia.movimento < 120 && this.index.prev !== null){
+    this.ativoSlideAnterior()
+  } else{
+    this.chageSlide(this.index.active)
+  }
+  console.log(this.distancia.movimento)
 }
 
 addEventoSlide(){
@@ -50,7 +67,6 @@ addEventoSlide(){
   this.wrapper.addEventListener('touchstart', this.comeco)
   this.wrapper.addEventListener('mouseup', this.terminandoMover)
   this.wrapper.addEventListener('touchend', this.terminandoMover)
-  
 }
 
 bindEventos() {
@@ -64,7 +80,6 @@ slidePosition(slide){
   const margin = (this.wrapper.offsetWidth - slide.offsetWidth)/ 2
   return -(slide.offsetLeft - margin)
 }
-
 
 slideConfig(){
   this.slideArray = [...this.slide.children].map((element) => {
@@ -92,11 +107,23 @@ chageSlide(index){
   this.distancia.posicaoFinal = slideAtivo.posicao
 }
 
-init(){
-  this.bindEventos()
-  this.addEventoSlide()
-  this.slideConfig()
-  return this
+ativoSlideAnterior(){
+  if(this.index.prev !== null){
+    this.chageSlide(this.index.prev)
+  }
 }
 
+ativoSlideProximo(){
+  if(this.index.next !== null){
+    this.chageSlide(this.index.next)
+  }
+}
+
+  init(){
+    this.bindEventos()
+  this.transition(true)
+    this.addEventoSlide()
+    this.slideConfig()
+    return this
+  }
 }
