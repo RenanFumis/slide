@@ -20,25 +20,36 @@ atualizandoPosicao(clientX){
 }
 
 comeco(e){
-  e.preventDefault()
-  this.distancia.inicioX = e.clientX
-  this.wrapper.addEventListener('mousemove', this.movendo)
+  let tipoMovimento;
+  if (e.type === 'mousedown'){
+    e.preventDefault()
+    this.distancia.inicioX = e.clientX
+    tipoMovimento = 'mousemove'
+  }else{
+    this.distancia.inicioX = e.changedTouches[0].clientX
+    tipoMovimento = 'touchmove'
+  }
+  this.wrapper.addEventListener(tipoMovimento, this.movendo)
 }
 
 movendo(e){
-  const ultimaPosicao = this.atualizandoPosicao(e.clientX)
+  const posicaoPointer = (e.type === 'mousemove') ? e.clientX : e.changedTouches[0].clientX; 
+  const ultimaPosicao = this.atualizandoPosicao(posicaoPointer)
   this.movendoSlide(ultimaPosicao)
 }
 
 terminandoMover(e){
-  this.wrapper.removeEventListener('mousemove', this.movendo)
+  const tipoMovimento = (e.type === 'mouseup') ? 'mousemove' : 'touchmove'
+  this.wrapper.removeEventListener(tipoMovimento, this.movendo)
   this.distancia.posicaoFinal = this.distancia.movimentoPosicao
  
 }
 
 addEventoSlide(){
   this.wrapper.addEventListener('mousedown', this.comeco)
+  this.wrapper.addEventListener('touchstart', this.comeco)
   this.wrapper.addEventListener('mouseup', this.terminandoMover)
+  this.wrapper.addEventListener('touchend', this.terminandoMover)
   
 }
 
