@@ -57,13 +57,45 @@ bindEventos() {
   this.comeco = this.comeco.bind(this)
   this.movendo = this.movendo.bind(this)
   this.terminandoMover = this.terminandoMover.bind(this)
-
 }
 
+//Configuração de Slides
+slidePosition(slide){
+  const margin = (this.wrapper.offsetWidth - slide.offsetWidth)/ 2
+  return -(slide.offsetLeft - margin)
+}
+
+
+slideConfig(){
+  this.slideArray = [...this.slide.children].map((element) => {
+    const posicao = this.slidePosition(element)
+    return {
+      posicao,
+      element
+    }
+  })
+}
+
+slideIndexNavegacao(index){
+  const ultimo = this.slideArray.length - 1
+  this.index ={
+    prev: index ? index - 1 : null,
+    active: index,
+    next: index === ultimo ? null : index + 1
+  }
+}
+
+chageSlide(index){
+  const slideAtivo = this.slideArray[index]
+  this.movendoSlide(slideAtivo.posicao)
+  this.slideIndexNavegacao(index)
+  this.distancia.posicaoFinal = slideAtivo.posicao
+}
 
 init(){
   this.bindEventos()
   this.addEventoSlide()
+  this.slideConfig()
   return this
 }
 
