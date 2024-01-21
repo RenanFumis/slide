@@ -1,3 +1,4 @@
+import debounce from "./debounce.js"
 export default class Slide {
 constructor(slide, wrapper){
   this.slide = document.querySelector(slide)
@@ -7,6 +8,7 @@ constructor(slide, wrapper){
     inicioX: 0,
     movimento: 0
   }
+  this.ativoClasse = 'ativa'
 }
 
 transition(ativo){
@@ -69,12 +71,6 @@ addEventoSlide(){
   this.wrapper.addEventListener('touchend', this.terminandoMover)
 }
 
-bindEventos() {
-  this.comeco = this.comeco.bind(this)
-  this.movendo = this.movendo.bind(this)
-  this.terminandoMover = this.terminandoMover.bind(this)
-}
-
 //Configuração de Slides
 slidePosition(slide){
   const margin = (this.wrapper.offsetWidth - slide.offsetWidth)/ 2
@@ -105,6 +101,12 @@ chageSlide(index){
   this.movendoSlide(slideAtivo.posicao)
   this.slideIndexNavegacao(index)
   this.distancia.posicaoFinal = slideAtivo.posicao
+  this.changeAtivoClasse()
+}
+
+changeAtivoClasse(){
+  this.slideArray.forEach(item => item.element.classList.remove(this.ativoClasse))
+  this.slideArray[this.index.active].element.classList.add(this.ativoClasse)
 }
 
 ativoSlideAnterior(){
@@ -119,11 +121,30 @@ ativoSlideProximo(){
   }
 }
 
+seAcontecerResize(){
+  setTimeout(() =>{
+    this.slideConfig()
+    this.chageSlide(this.index.active)
+  }, 500)
+}
+
+addResizeEvento(){
+  window.addEventListener('resize', this.seAcontecerResize)
+}
+
+bindEventos() {
+  this.comeco = this.comeco.bind(this)
+  this.movendo = this.movendo.bind(this)
+  this.terminandoMover = this.terminandoMover.bind(this)
+  this.seAcontecerResize = debounce(this.seAcontecerResize.bind(this), 200)
+}
+
   init(){
     this.bindEventos()
-  this.transition(true)
+    this.transition(true)
     this.addEventoSlide()
     this.slideConfig()
+    this.addResizeEvento()
     return this
   }
 }
