@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="Ptbr">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div class="wrapper-slide">
+  <div class="slide-wrapper">
     <ul class="slide">
       <li><img src="img/foto1.jpg" alt="Foto de Raposa"></li>
       <li><img src="img/foto2.jpg" alt="Foto de Esquilo"></li>
@@ -21,6 +21,34 @@
       <li><img src="img/foto6.jpg" alt="Foto de Leão"></li>
     </ul>
   </div>
+  <div class="arrow-nav">
+    <button class="prev">Prev</button>
+    <button class="next">Next</button>
+  </div>
+
+  <style>
+    .arrow-nav{
+  
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+button{
+  cursor: pointer;
+  background: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  padding: 10px;
+}
+button:active{
+  border-radius: 8px;
+  font-size: 1.4rem;
+  border: 1px solid brown;
+}
+  </style>
 
   <script type="module" src="./js/script.js"></script>
 </body>
