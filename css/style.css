@@ -7,6 +7,9 @@ ul {
   margin: 0px;
   list-style: none;
 }
+li{
+  list-style: none;
+}
 
 img {
   display: block;
@@ -63,4 +66,56 @@ margin: 5px;
 
 [data-control="slide"] li.active a, [data-control="slide"] li a:hover {
   background: #E54;
+}
+
+/* Estilo da Seta */
+
+.arrow-nav{
+  
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+button{
+  cursor: pointer;
+  background: #FB5;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  padding: 10px;
+}
+button:active{
+  border-radius: 8px;
+  font-size: 1.4rem;
+  border: 1px solid brown;
+}
+
+/*Fim do estilo da Seta*/
+
+/*Estilizando img control*/
+
+.custom-control {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0px 20px 0px;
+  flex-wrap: wrap;
+}
+
+.custom-control li {
+  opacity: .8;
+  transform: scale(.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden; /*Para ficar dentro de um circulo perfeito*/
+  margin: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .5);
+  transition: .3s;
+}
+
+.custom-control li.active{
+  opacity: 1;
+  transform: scale(1);
 }
